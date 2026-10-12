@@ -421,15 +421,15 @@ def create_table_crews(db_name):
 
 def import_data_crews(db_name):
     import_data = [
-        ('00131','JP-057','002','009','005'),
-        ('00132','JP-058','004','009','002'),
-        ('00133','JP-059','005','012','008'),
-        ('00134','JP-060','001','011',''),
-        ('00135','JP-061','002','008','005'),
-        ('00136','JP-062','003','009',''),
-        ('00137','JP-063','001','011',''),
-        ('00138','JP-064','004','007',''),
-        ('00139','JP-065','005','010','')
+        ('00131','057','002','009','005'),
+        ('00132','058','004','009','002'),
+        ('00133','059','005','012','008'),
+        ('00134','060','001','011',''),
+        ('00135','061','002','008','005'),
+        ('00136','062','003','009',''),
+        ('00137','063','001','011',''),
+        ('00138','064','004','007',''),
+        ('00139','065','005','010','')
     ]
 
     conn = None
@@ -480,28 +480,28 @@ def view_db(db_name):
 
     conn.close()
 
-##create_table_airports(db_name)
-##import_data_airports(db_name)
+#create_table_airports(db_name)
+#import_data_airports(db_name)
 
-##create_table_aircraft(db_name)
-##import_data_aircraft(db_name)
+#create_table_aircraft(db_name)
+#import_data_aircraft(db_name)
 
-##create_table_pilots(db_name)
-##import_data_pilots(db_name)
+#create_table_pilots(db_name)
+#import_data_pilots(db_name)
 
-##create_table_airframes(db_name)
-##import_data_airframes(db_name)
+#create_table_airframes(db_name)
+#import_data_airframes(db_name)
 
-##create_table_routes(db_name)
-##import_data_routes(db_name)
+#create_table_routes(db_name)
+#import_data_routes(db_name)
 
-##create_table_certifications(db_name)
-##import_data_certifications(db_name)
+#create_table_certifications(db_name)
+#import_data_certifications(db_name)
 
-##create_table_flights(db_name)
-##import_data_flights(db_name)
+#create_table_flights(db_name)
+#import_data_flights(db_name)
 
-##create_table_crews(db_name)
-##import_data_crews(db_name)
+#create_table_crews(db_name)
+#import_data_crews(db_name)
 
 view_db(db_name)
