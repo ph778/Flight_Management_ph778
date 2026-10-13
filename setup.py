@@ -1,6 +1,10 @@
 import sqlite3
 
+# named database object
+
 db_name = "DBName.db"
+
+# creates airports table
 
 def create_table_airports(db_name):
     create_table = "CREATE TABLE airports (apCode VARCHAR(3) NOT NULL PRIMARY KEY, city VARCHAR(20), country VARCHAR(20));"
@@ -22,6 +26,8 @@ def create_table_airports(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the airports table
 
 def import_data_airports(db_name):
     import_data = [
@@ -55,6 +61,7 @@ def import_data_airports(db_name):
         if conn:
             conn.close()
 
+# creates aircraft table
 
 def create_table_aircraft(db_name):
     create_table = "CREATE TABLE aircraft (type VARCHAR(4) NOT NULL PRIMARY KEY, manufacturer VARCHAR(20), model VARCHAR(20) NOT NULL, capacity INT, longhaul BOOLEAN);"
@@ -76,6 +83,8 @@ def create_table_aircraft(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the aircraft table
 
 def import_data_aircraft(db_name):
     import_data = [
@@ -105,6 +114,8 @@ def import_data_aircraft(db_name):
         if conn:
             conn.close()
 
+# creates the pilots table
+
 def create_table_pilots(db_name):
     create_table = "CREATE TABLE pilots (idPilot INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, idEmployee INT NOT NULL, first_name VARCHAR(20), surname VARCHAR(20), captain BOOLEAN, active BOOLEAN);"
 
@@ -125,6 +136,8 @@ def create_table_pilots(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the pilots table
 
 def import_data_pilots(db_name):
     import_data = [
@@ -162,6 +175,8 @@ def import_data_pilots(db_name):
         if conn:
             conn.close()
 
+# creates the airframes table
+
 def create_table_airframes(db_name):
     create_table = "CREATE TABLE airframes (registration VARCHAR(6) NOT NULL PRIMARY KEY, serial INT, type VARCHAR(4) NOT NULL, introduced TEXT, hours INT, location VARCHAR(3) NOT NULL, active BOOLEAN, FOREIGN KEY (type) REFERENCES aircraft(type) ON DELETE CASCADE, FOREIGN KEY (location) REFERENCES airports(apCode));"
 
@@ -182,6 +197,8 @@ def create_table_airframes(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the airframes table
 
 def import_data_airframes(db_name):
     import_data = [
@@ -219,6 +236,8 @@ def import_data_airframes(db_name):
         if conn:
             conn.close()
 
+# creates the routes table
+
 def create_table_routes(db_name):
     create_table = "CREATE TABLE routes (idRoute INTEGER PRIMARY KEY AUTOINCREMENT, pointA VARCHAR(3) NOT NULL, pointB VARCHAR(3) NOT NULL, route_uq VARCHAR(6) UNIQUE, duration INT NOT NULL, active BOOLEAN, FOREIGN KEY (pointA) REFERENCES airport(apCode) ON DELETE CASCADE, FOREIGN KEY (pointB) REFERENCES airports(apCode) ON DELETE CASCADE);"
 
@@ -239,6 +258,8 @@ def create_table_routes(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the routes table
 
 def import_data_routes(db_name):
     import_data = [
@@ -280,6 +301,8 @@ def import_data_routes(db_name):
         if conn:
             conn.close()
 
+# creates the certifications table
+
 def create_table_certifications(db_name):
     create_table = "CREATE TABLE certifications (idCertification INTEGER PRIMARY KEY AUTOINCREMENT, pilot INT NOT NULL, type VARCHAR(4) NOT NULL, certification_uq VARCHAR(10) UNIQUE, FOREIGN KEY (pilot) REFERENCES pilots(idPilot) ON DELETE CASCADE, FOREIGN KEY (type) REFERENCES aircraft(type) ON DELETE CASCADE);"
 
@@ -300,6 +323,8 @@ def create_table_certifications(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the certifications table
 
 def import_data_certifications(db_name):
     import_data = [
@@ -341,6 +366,8 @@ def import_data_certifications(db_name):
         if conn:
             conn.close()
 
+# creates the flights table
+
 def create_table_flights(db_name):
     create_table = "CREATE TABLE flights (flight_number INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, designation VARCHAR(7), route INT NOT NULL, departure_time TEXT, longhaul BOOLEAN, arrival_time TEXT, airframe VARCHAR(6), crewed BOOLEAN, active BOOLEAN, FOREIGN KEY (route) REFERENCES routes(idRoute) ON DELETE CASCADE, FOREIGN KEY (airframe) REFERENCES airframes(registration));"
 
@@ -361,6 +388,8 @@ def create_table_flights(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the flights table
 
 def import_data_flights(db_name):
     import_data = [
@@ -398,6 +427,8 @@ def import_data_flights(db_name):
         if conn:
             conn.close()
 
+# creates the crews table
+
 def create_table_crews(db_name):
     create_table = "CREATE TABLE crews (idCrew INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flight INT NOT NULL, captain INT NOT NULL, officer INT, reserve INT, FOREIGN KEY (flight) REFERENCES flights(flight_number) ON DELETE CASCADE, FOREIGN KEY (captain) REFERENCES pilots(idPilot) ON DELETE CASCADE, FOREIGN KEY (officer) REFERENCES pilots(idPilot), FOREIGN KEY (reserve) REFERENCES pilots(idPilot));"
 
@@ -418,6 +449,8 @@ def create_table_crews(db_name):
     finally:
         if conn:
             conn.close()
+
+# imports encoded data into the crews table
 
 def import_data_crews(db_name):
     import_data = [
@@ -452,7 +485,7 @@ def import_data_crews(db_name):
         if conn:
             conn.close()
 
-##view all database data 
+# displays all table and data within the database 
 
 def view_db(db_name):
     conn = sqlite3.connect(db_name)
@@ -480,28 +513,6 @@ def view_db(db_name):
 
     conn.close()
 
-#create_table_airports(db_name)
-#import_data_airports(db_name)
-
-#create_table_aircraft(db_name)
-#import_data_aircraft(db_name)
-
-#create_table_pilots(db_name)
-#import_data_pilots(db_name)
-
-#create_table_airframes(db_name)
-#import_data_airframes(db_name)
-
-#create_table_routes(db_name)
-#import_data_routes(db_name)
-
-#create_table_certifications(db_name)
-#import_data_certifications(db_name)
-
-#create_table_flights(db_name)
-#import_data_flights(db_name)
-
-#create_table_crews(db_name)
-#import_data_crews(db_name)
+# call functions
 
 view_db(db_name)

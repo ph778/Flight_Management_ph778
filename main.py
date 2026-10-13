@@ -1,62 +1,18 @@
 import sqlite3
 
-# Define DBOperation class to manage all data into the database.
-# Give a name of your choice to the database
+# named database object
+
 db_name = "DBName.db"
+
+# Define DBOperation class to manage all data into the database.
 
 class DBOperations:
   
-  sql_create_table_firsttime = "create table if not exists "
-  sql_create_table = "create table TableName"
-  sql_insert = ""
-  sql_alter_data = ""
-  sql_update_data = ""
-  sql_delete_data = ""
-  sql_drop_table = ""
-
-#  def __init__(self):
-#    try:
-#      self.conn = sqlite3.connect(db_name)
-#      self.cur = self.conn.cursor()
-#      self.cur.execute(self.sql_create_table_firsttime)
-#      self.conn.commit()
-#    except Exception as e:
-#      print(e)
-#    finally:
-#      self.conn.close()
-
   def get_connection(self):
     self.conn = sqlite3.connect(db_name)
     self.cur = self.conn.cursor()
 
-#  def create_table(self):
-#    try:
-#      self.get_connection()
-#      self.cur.execute(self.sql_create_table)
-#      self.conn.commit()
-#      print("Table created successfully")
-#    except Exception as e:
-#      print(e)
-#    finally:
-#      self.conn.close()
-
-## sub menu for the search and display info functions
-
-  def insert_data(self):
-    try:
-      self.get_connection()
-
-      flight = FlightInfo()
-      flight.set_flight_id(int(input("Enter FlightID: ")))
-
-      self.cur.execute(self.sql_insert, tuple(str(flight).split("\n")))
-
-      self.conn.commit()
-      print("Inserted data successfully")
-    except Exception as e:
-      print(e)
-    finally:
-      self.conn.close()
+# menu for display by search variables
 
   def display_flights_routes_menu(self):
 
@@ -87,7 +43,7 @@ class DBOperations:
       else:
         print("Invalid Choice")
 
-## displays all data within the database db_name, table by table
+# displays all data within the database db_name, table by table
 
   def display_all(self):
     conn = sqlite3.connect(db_name)
@@ -114,9 +70,8 @@ class DBOperations:
             print(row)
     
     conn.close()
-      # think how you could develop this method to show the records
        
-## displays records matching the flight number entered
+# displays records matching the flight number entered
 
   def search_flight_number(self):
     try:
@@ -181,6 +136,8 @@ class DBOperations:
     finally:
       self.conn.close()
 
+# displays flights by destination airport
+
   def search_flight_destination(self):
     try:
       self.get_connection()
@@ -235,11 +192,13 @@ class DBOperations:
     finally:
       self.conn.close()
 
+# display routes by airport (either destination or departure)
+
   def search_route_airport(self):
       try:
         self.get_connection()
         route_apcode = input("Enter Airport Code: ").upper()
-        self.cur.execute("SELECT * FROM routes WHERE routes.pointA OR routes.pointB = ?", (route_apcode,))
+        self.cur.execute("SELECT * FROM routes WHERE routes.pointA = ? OR routes.pointB = ?", (route_apcode, route_apcode))
               
         routes = self.cur.fetchall()
   
@@ -277,6 +236,8 @@ class DBOperations:
         print(e)
       finally:
         self.conn.close()
+
+# displays all routes below a input flight time
 
   def search_route_duration(self):
       try:
@@ -320,6 +281,8 @@ class DBOperations:
         print(e)
       finally:
         self.conn.close()
+
+# displays all flights with a input pilot id allocated
 
   def search_pilot_schedule(self):
     try:
@@ -379,88 +342,6 @@ class DBOperations:
       print(e)
     finally:
       self.conn.close()
-
-
-#############################################
-
-
-  def update_data(self):
-    try:
-      self.get_connection()
-
-    finally:
-      self.conn.close()
-  
-  def update_data(self):
-    try:
-        self.get_connection()
-
-      # Update statement
-
-        if result.rowcount != 0:
-          print(str(result.rowcount) + "Row(s) affected.")
-        else:
-          print("Cannot find this record in the database")
-
-    except Exception as e:
-      print(e)
-    finally:
-      self.conn.close()
-
-# Define Delete_data method to delete data from the table. The user will need to input the flight id to delete the corrosponding record.
-
-  def delete_data(self):
-    try:
-      self.get_connection()
-
-      if result.rowcount != 0:
-        print(str(result.rowcount) + "Row(s) affected.")
-      else:
-        print("Cannot find this record in the database")
-
-    except Exception as e:
-      print(e)
-    finally:
-      self.conn.close()
-
-#class FlightInfo:
-
-#  def __init__(self):
-#    self.flightID = 0
-#    self.flightOrigin = ''
-#    self.flightDestination = ''
-#    self.status = ''
-
-#  def set_flight_id(self, flightID):
-#    self.flightID = flightID
-
-#  def set_flight_origin(self, flightOrigin):
-#    self.flight_origin = flightOrigin#
-
-#  def set_flight_destination(self, flightDestination):
-#    self.flight_destination = flightDestination
-
-#  def set_status(self, status):
-#    self.status = status
-
-#  def get_flight_id(self):
-#    return self.flightID
-
-#  def get_flight_origin(self):
-#    return self.flightOrigin
-
-#  def get_flight_destination(self):
-#    return self.flightDestination
-
-#  def get_status(self):
-#    return self.status
-
-#  def __str__(self):
-#    return str(
-#      self.flightID
-#    ) + "\n" + self.flightOrigin + "\n" + self.flightDestination + "\n" + str(
-#      self.status)
-
 
 # The main function will parse arguments.
 # These argument will be defined by the users on the console.
